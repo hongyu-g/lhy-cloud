@@ -1,0 +1,83 @@
+server:
+  # 服务端口号
+  port: 10082
+  servlet:
+    context-path: /user
+spring:
+  application:
+    # 服务名称 - 服务之间使用名称进行通讯
+    name: user-service
+#  cloud:
+#    config:
+#      # 配置文件环境
+#      profile: dev
+#      discovery:
+#        # 开启配置中心
+#        enabled: true
+#        # 配置中心别名
+#        service-id: service-config
+  datasource:
+     #url: jdbc:mysql://localhost:3306/lhy?useUnicode=true&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://192.168.1.153:3306/users?useUnicode=true&useSSL=false&allowMultiQueries=true
+    username: root
+    password: xykj
+  redis:
+    #Redis数据库索引（默认为0）
+    database: 0
+    host: 47.93.156.147
+    port: 6379
+    password:
+    #连接超时时间（毫秒）
+    timeout: 10000ms
+    #连接池最大连接数（使用负值表示没有限制）
+    max-active: 8
+    #连接池最大阻塞等待时间（使用负值表示没有限制）
+    max-wait:
+    #连接池中的最大空闲连接
+    max-idle: 8
+    #连接池中的最小空闲连接
+    min-idle: 0
+  jpa:
+    #日志中打印出执行的 SQL 语句信息
+    show-sql: true
+    #将默认的存储引擎切换为 InnoDB
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: none
+
+eureka:
+  client:
+    service-url:
+      # 填写注册中心服务器地址
+      defaultZone: http://127.0.0.1:10081/eureka
+    # 是否需要将自己注册到注册中心
+    register-with-eureka: true
+    # 是否需要搜索服务信息
+    fetch-registry: true
+  instance:
+    # 使用ip地址注册到注册中心
+    prefer-ip-address: true
+    # 注册中心列表中显示的状态参数
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+
+# ribbon客户端负载均衡，默认的负载均衡策略是轮询
+ribbon:
+  #建立连接超时时间
+  ConnectTimeout: 5000
+  #读取资源超时间
+  ReadTimeout: 5000
+
+# 忽略hystrix的超时时间
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
+
+# pagehelper
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql

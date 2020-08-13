@@ -1,0 +1,14 @@
+server:
+  # 配置服务端口
+  port: 10081
+eureka:
+  client:
+    service-url:
+      # 配置eureka服务器地址
+      defaultZone: http://127.0.0.1:10081/eureka
+    #是否需要将自己注册到注册中心(注册中心集群需要设置为true)
+    register-with-eureka: false
+    #是否需要搜索服务信息 因为自己是注册中心所以为false
+    fetch-registry: false
+  server:
+    enableSelfPreservation: false # 本地调试环境下关闭自我保护机制
