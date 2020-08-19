@@ -1,5 +1,7 @@
 package com.hong.utilservice.java;
 
+import java.io.FileNotFoundException;
+
 /**
  * @author liang
  * @description
@@ -7,23 +9,42 @@ package com.hong.utilservice.java;
  */
 public class DemoTest {
 
-    private Animal animal;
 
-    /**
-     * 动态绑定：运行时确定调用类
-     * 静态绑定：编译时确定调用类（调用静态方法、final方法、构造函数）
-     */
+    private int a = 10;
+    private int b = 5;
 
-    public DemoTest(Animal animal) {
-        this.animal = animal;
+    private Integer aa = 10;
+    private Integer bb = 5;
+
+    private void test1(int a, int b) {
+        a = 5;
+        b = 10;
+    }
+
+    private void test2(Integer aa, Integer bb) {
+        Integer temp = aa;
+        aa = bb;
+        bb = temp;
     }
 
 
-    public void test() {
-        animal.eat();
+    public void print() {
+        System.out.println("a:" + a + ",b:" + b);
+        test1(a, b);
+        System.out.println("a:" + a + ",b:" + b);
+
+        System.out.println("============");
+        System.out.println("aa:" + aa + ",bb:" + bb);
+        test2(aa, bb);
+        System.out.println("aa:" + aa + ",bb:" + bb);
     }
+
+
+
+
+
 
     public static void main(String[] args) {
-        new DemoTest(new Panda()).test();
+
     }
 }
