@@ -1,7 +1,5 @@
 package com.hong.utilservice.java;
 
-import java.io.FileNotFoundException;
-
 /**
  * @author liang
  * @description
@@ -39,12 +37,4 @@ public class DemoTest {
         System.out.println("aa:" + aa + ",bb:" + bb);
     }
 
-
-
-
-
-
-    public static void main(String[] args) {
-
-    }
 }
