@@ -45,13 +45,15 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public void updateUser(Long userId, String name) {
         userDAO.updateUser(userId, name);
-        updateUser2(userId, name);
+        /**
+         * 处在不同的事务中，操作同一条记录会产生死锁
+         */
+        userServiceImpl2.updateUser2(34L,"hong6");
+        if(1==1){
+            throw new RuntimeException("test");
+        }
     }
 
-
-    public void updateUser2(Long userId, String name) {
-        userDAO.updateUser(userId, name);
-    }
 
 
 }
