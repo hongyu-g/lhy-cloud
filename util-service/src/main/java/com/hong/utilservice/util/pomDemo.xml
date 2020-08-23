@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!--声明项目描述符遵循哪一个POM模型版本 -->
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.lhy</groupId>
+    <artifactId>lhy-project</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>lhy-common</module>
+        <module>lhy-service</module>
+        <module>lhy-server</module>
+        <module>lhy-util</module>
+    </modules>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.4.7.RELEASE</version>
+    </parent>
+    <!--项目的名称-->
+    <name>lhy-project</name>
+
+
+    <!-- 为pom定义一些常量 -->
+    <properties>
+        <!-- 指定jdk版本,源文件和编译后文件的编码 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <lhy.version>1.0-SNAPSHOT</lhy.version>
+    </properties>
+
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>3.8.1</version>
+                <!-- scope 说明
+                    - compile ：默认范围，用于编译
+                    - provided：类似于编译，但支持你期待jdk或者容器提供，类似于classpath
+                    - runtime: 在执行时，需要使用
+                    - test:    用于test任务时使用
+                    - system: 需要外在提供相应得元素。通过systemPath来取得
+                    - systemPath: 仅用于范围为system。提供相应的路径
+                    - optional:   标注可选，当项目自身也是依赖时。用于连续依赖时使用
+                -->
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>23.0</version>
+        </dependency>
+        <!-- ******* apache工具包 ******* -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.49</version>
+        </dependency>
+    </dependencies>
+
+    <!--<repositories>-->
+    <!--&lt;!&ndash;包含需要连接到远程仓库的信息 &ndash;&gt;-->
+    <!--<repository>-->
+    <!--&lt;!&ndash;远程仓库唯一标识符。可以用来匹配在settings.xml文件里配置的远程仓库 &ndash;&gt;-->
+    <!--<id>nexus-aliyun</id>-->
+    <!--&lt;!&ndash;远程仓库名称 &ndash;&gt;-->
+    <!--<name>Nexus aliyun</name>-->
+    <!--&lt;!&ndash;远程仓库URL&ndash;&gt;-->
+    <!--<url>http://maven.aliyun.com/nexus/content/groups/public/</url>-->
+    <!--&lt;!&ndash;我们可以使用该元素指定布局是default（默认）还是legacy（遗留）。 &ndash;&gt;-->
+    <!--<layout>default</layout>-->
+    <!--</repository>-->
+    <!--</repositories>-->
+
+    <!-- 指定如何构建当前的构建 -->
+    <build>
+        <!--&lt;!&ndash; 构建产生的所有文件存放的目录,默认为${basedir}/target，即项目根目录下的target &ndash;&gt;-->
+        <!--<directory>${basedir}/target</directory>-->
+
+        <!--&lt;!&ndash;必须跟命令行上的参数相同例如jar:jar，或者与某个阶段（phase）相同例如install、compile等 &ndash;&gt;-->
+        <!--<defaultGoal>install</defaultGoal>-->
+
+        <!--&lt;!&ndash;当filtering开关打开时，使用到的过滤器属性文件列表。 &ndash;&gt;-->
+        <!--<filters>-->
+        <!--<filter>../filter.properties</filter>-->
+        <!--</filters>-->
+
+        <!--描述了项目相关的所有资源路径列表 -->
+        <resources>
+            <!--其中的一个资源路径配置，例如和项目相关的属性文件，这些资源被包含在最终的打包文件里。-->
+            <resource>
+                <!--指定打包后该资源所放位置，如果你只是想把资源放到源码目录结构里，就不需要该配置。 -->
+                <!--举个例子，如果你想资源在特定的包里(org.apache.maven.messages)，你就必须该元素设置为org/apache/maven/messages -->
+                <!--<targetPath>resources</targetPath>-->
+                <!--描述存放资源的目录，该路径相对POM路径，用来指定resources插件处理哪个目录下的资源文件 -->
+                <directory>src/main/resources</directory>
+                <!-- 变量替换 -->
+                <filtering>true</filtering>
+                <!--包含的模式列表，就是该操作都操作哪些文件 -->
+                <!--<includes>-->
+                <!--<include>**/*.properties</include>-->
+                <!--<include>**/*.xml</include>-->
+                <!--</includes>-->
+                <!--排除的模式列表 如果<include>与<exclude>划定的范围存在冲突，以<exclude>为准 -->
+                <excludes>
+                    <exclude>**/*.properties</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>application.properties</include>
+                    <include>application-${profiles.active}.properties</include>
+                </includes>
+            </resource>
+        </resources>
+
+
+        <!--指定了进行构建时使用的插件 -->
+        <plugins>
+            <!-- 资源文件拷贝插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <!-- java编译插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.2</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <profiles>
+        <profile>
+            <!-- dev环境 -->
+            <id>dev</id>
+            <properties>
+                <!-- 被激活的profile的配置文件的目录 -->
+                <profiles.active>dev</profiles.active>
+                <!--<spring.profiles.active>dev</spring.profiles.active>-->
+            </properties>
+            <activation>
+                <!-- 设置默认激活这个配置 -->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <!-- test环境 -->
+            <id>test</id>
+            <properties>
+                <profiles.active>test</profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <!-- online环境 -->
+            <id>online</id>
+            <properties>
+                <profiles.active>online</profiles.active>
+            </properties>
+        </profile>
+    </profiles>
+
+    <!-- 用于配置分发管理，配置相应的产品发布信息,主要用于发布，在执行mvn deploy后表示要发布的位置
+         - releases：线上版本（生产环境使用的）
+         - snapshots：快照版本（开发过程中使用的）
+    -->
+    <distributionManagement>
+    <repository>
+    <id>nexus-releases</id>
+    <url>http://192.168.2.47:8081/repository/maven-releases</url>
+    </repository>
+    <snapshotRepository>
+    <id>nexus-snapshots</id>
+    <url>http://192.168.2.47:8081/repository/maven-snapshots</url>
+    </snapshotRepository>
+    </distributionManagement>
+
+</project>

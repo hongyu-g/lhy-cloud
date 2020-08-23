@@ -39,15 +39,19 @@ public class UserServiceImpl implements UserService {
 
 
     @Autowired
-    private  UserServiceImpl2 userServiceImpl2;
+    private UserServiceImpl2 userServiceImpl2;
 
     @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public void updateUser(Long userId, String name) {
         userDAO.updateUser(userId, name);
-        userServiceImpl2.updateUser2(name);
-
+        updateUser2(userId, name);
     }
 
+
+    public void updateUser2(Long userId, String name) {
+        userDAO.updateUser(userId, name);
+    }
 
 
 }
