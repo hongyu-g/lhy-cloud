@@ -55,8 +55,6 @@ class UserServiceApplicationTests {
 
 
 
-
-
     @Test
     void hystrixTest() {
         User user = new QueryUserCommand(userService).execute();
@@ -67,7 +65,7 @@ class UserServiceApplicationTests {
 
     @Test
     void contextLoads() {
-        userService.updateUser(227L, "yu4");
+        userService.updateUser(227L, "yu11");
     }
 
     /**

@@ -1,5 +1,7 @@
 package com.hong.utilservice.java;
 
+import java.math.BigDecimal;
+
 /**
  * @author liang
  * @description
@@ -32,7 +34,7 @@ public class DemoTest {
 
     public void print() {
         System.out.println("a:" + a + ",b:" + b);
-        test1(a,b);
+        test1(a, b);
         System.out.println("a:" + a + ",b:" + b);
 
         System.out.println("============");
@@ -44,8 +46,6 @@ public class DemoTest {
         test3(arr);
         System.out.println(arr[0]);
     }
-
-
 
 
     public static int demoTryCatch() {
@@ -62,11 +62,28 @@ public class DemoTest {
         }
     }
 
-    private static void test4(){
-        int a = 1000;
-        int b = 1000;
-        System.out.println(a==b);
+    /**
+     * double 精度问题
+     */
+    public static void test4() {
+        double num = 0.05;
+        double num2 = 0.01;
+        double result = num + num2;
+        System.out.println(result);
+
+        result = num * 100 + num2 * 100;
+        System.out.println(result / 100);
+
+        BigDecimal b1 = new BigDecimal(Double.toString(num));
+        BigDecimal b2 = new BigDecimal(Double.toString(num2));
+        result = b1.add(b2).doubleValue();
+        System.out.println(result);
     }
+
+    public static void copyDemo() {
+
+    }
+
 
     public static void main(String[] args) {
         DemoTest.test4();

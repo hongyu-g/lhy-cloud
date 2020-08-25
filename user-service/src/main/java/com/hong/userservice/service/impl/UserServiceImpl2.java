@@ -18,9 +18,10 @@ public class UserServiceImpl2 {
     @Autowired
     private UserDAO userDAO;
 
-    @Transactional(rollbackFor = Exception.class, propagation = Propagation.NESTED)
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
     public void updateUser2(Long userId,String name) {
         userDAO.updateUser(userId, name);
+
     }
 
 }

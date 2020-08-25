@@ -14,7 +14,7 @@ public class IOClient {
     private static AtomicInteger atomicInteger = new AtomicInteger();
 
     public static void main(String[] args) {
-        for(int i=0;i<5;i++){
+        for (int i = 0; i < 5; i++) {
             //客户端连接服务端
             new Thread(() -> {
                 try {
@@ -34,8 +34,7 @@ public class IOClient {
                 }
             }).start();
         }
-        }
-
+    }
 
 
 }
