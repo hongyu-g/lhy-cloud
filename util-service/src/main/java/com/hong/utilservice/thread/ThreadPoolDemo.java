@@ -1,7 +1,10 @@
 package com.hong.utilservice.thread;
 
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.LockSupport;
 
 /**
  * @author liang
@@ -11,74 +14,79 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ThreadPoolDemo {
 
 
-    private static AtomicInteger atomicInteger = new AtomicInteger(10);
+    private BlockingQueue blockingQueue = new LinkedBlockingQueue(100);
+
+    private ThreadPoolExecutor executor = new ThreadPoolUtil().getThreadPool();
 
 
-    private BlockingQueue blockingQueue = new ArrayBlockingQueue(10);
-
-    private BlockingQueue blockingQueue2 = new LinkedBlockingQueue(100);
-
-
-    private ThreadPoolExecutor poolExecutor = new ThreadPoolExecutor(2, 3, 1, TimeUnit.SECONDS,
-            new ArrayBlockingQueue<>(100), new ThreadFactory() {
+    class MyRunnable implements Runnable {
         @Override
-        public Thread newThread(Runnable r) {
-            Thread t = new Thread(r);
-            t.setName("hong_thread_pool_" + atomicInteger.incrementAndGet());
-            return t;
+        public void run() {
+            System.out.println("hahhha");
         }
-    }, new ThreadPoolExecutor.CallerRunsPolicy());
+    }
 
-    private ExecutorService executor1 = Executors.newFixedThreadPool(10);
 
-    private ExecutorService executor2 = Executors.newSingleThreadExecutor();
+    public void demo() {
+        new Wroker(new MyRunnable()).t.start();
+    }
 
-    private ExecutorService executor3 = Executors.newCachedThreadPool();
 
-    private ExecutorService executor4 = Executors.newScheduledThreadPool(10);
+    private Thread thread;
 
+    public void lockPark() {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                thread = Thread.currentThread();
+                System.out.println(Thread.currentThread().getName() + "：线程阻塞");
+                LockSupport.park();
+                System.out.println(Thread.currentThread().getName() + "：线程开始执行");
+            }
+        });
+
+        try {
+            Thread.sleep(1000);
+        } catch (Exception e) {
+
+        }
+
+
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println(Thread.currentThread().getName() + "：唤醒");
+                LockSupport.unpark(thread);
+            }
+        });
+
+        executor.shutdown();
+    }
+
+
+    public static void main(String[] args) {
+        new ThreadPoolDemo().lockPark();
+    }
 
 
     /**
-     * 高位表示线程池状态，低位表示活动线程数
+     * 线程池包装了Wroker
      */
-    private final AtomicInteger ctl = new AtomicInteger(ctlOf(RUNNING, 0));
-    private static final int COUNT_BITS = Integer.SIZE - 3;
-    private static final int CAPACITY = (1 << COUNT_BITS) - 1;
+    private class Wroker implements Runnable {
 
-    private static final int RUNNING = -1 << COUNT_BITS;
-    private static final int SHUTDOWN = 0 << COUNT_BITS;
-    private static final int STOP = 1 << COUNT_BITS;
-    private static final int TIDYING = 2 << COUNT_BITS;
-    private static final int TERMINATED = 3 << COUNT_BITS;
+        Thread t;
+        Runnable r;
 
-    private static int runStateOf(int c) {
-        System.out.println("runStateOf c:" + Integer.toBinaryString(c));
-        System.out.println("runStateOf CAPACITY:" + Integer.toBinaryString(~CAPACITY));
-        return c & ~CAPACITY;
-    }
+        public Wroker(Runnable r) {
+            this.r = r;
+            this.t = new Thread(this);
+        }
 
-    private static int workerCountOf(int c) {
-        System.out.println("workerCountOf c:" + Integer.toBinaryString(c));
-        System.out.println("workerCountOf CAPACITY:" + Integer.toBinaryString(CAPACITY));
-        return c & CAPACITY;
+        @Override
+        public void run() {
+            System.out.println("test");
+            r.run();
+        }
 
-    }
-
-    private static int ctlOf(int rs, int wc) {
-        return rs | wc;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(Integer.toBinaryString(CAPACITY));
-        System.out.println(Integer.toBinaryString(RUNNING));
-        System.out.println(Integer.toBinaryString(SHUTDOWN));
-        System.out.println(Integer.toBinaryString(STOP));
-        System.out.println(Integer.toBinaryString(TIDYING));
-        System.out.println(Integer.toBinaryString(TERMINATED));
-
-        ThreadPoolDemo demo = new ThreadPoolDemo();
-        System.out.println(ThreadPoolDemo.workerCountOf(demo.ctl.get()));
-        System.out.println(Integer.toBinaryString(ThreadPoolDemo.runStateOf(demo.ctl.get())));
     }
 }

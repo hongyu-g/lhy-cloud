@@ -38,4 +38,14 @@ public class ThreadPoolUtil {
                 blockingQueue, getThreadFactory(), new ThreadPoolRejectedExecutionHandler());
     }
 
+
+
+    private ExecutorService executor1 = Executors.newFixedThreadPool(10);
+
+    private ExecutorService executor2 = Executors.newSingleThreadExecutor();
+
+    private ExecutorService executor3 = Executors.newCachedThreadPool();
+
+    private ExecutorService executor4 = Executors.newScheduledThreadPool(10);
+
 }
