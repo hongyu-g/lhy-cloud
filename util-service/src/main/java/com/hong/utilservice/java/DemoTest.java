@@ -192,5 +192,6 @@ public class DemoTest implements Serializable {
 
     public static void main(String[] args) {
         DemoTest demo = new DemoTest();
+        System.out.println(50*24*60*60);
     }
 }
