@@ -39,14 +39,32 @@ public class ArrayDemo {
             } else if (arr1[m] < arr2[n]) {
                 m++;
             } else {
-                for (int j = m; j < k; j++) {
+                for (int j = k - 1; j >= m; j--) {
                     arr1[j + 1] = arr1[j];
                 }
                 arr1[m++] = arr2[n++];
+                k++;
             }
             print(arr1);
         }
 
+        return arr1;
+    }
+
+    public int[] merge3(int[] arr1, int[] arr2, int k) {
+        int i = k - 1;
+        int j = arr2.length - 1;
+        int n = arr2.length + k - 1;
+        while (i >= 0 && j >= 0) {
+            if (arr1[i] > arr2[j]) {
+                arr1[n--] = arr1[i--];
+            } else {
+                arr1[n--] = arr2[j--];
+            }
+        }
+        while (j >= 0) {
+            arr1[n--] = arr2[j--];
+        }
         return arr1;
     }
 
@@ -58,12 +76,19 @@ public class ArrayDemo {
         System.out.println("============");
     }
 
+    public void arr(int[] arr) {
+        for (int i = 2; i >= 0; i--) {
+            arr[i + 1] = arr[i];
+        }
+        print(arr);
+    }
+
 
     public static void main(String[] args) {
-        int[] arr1 = {1, 2, 4, 0, 0, 0};
-        int[] arr2 = {3, 5, 6};
+        int[] arr1 = {4, 9, 10, 0, 0, 0};
+        int[] arr2 = {1, 11, 15};
         ArrayDemo demo = new ArrayDemo();
-        arr1 = demo.merge2(arr1, arr2, 3);
-
+        arr1 = demo.merge3(arr1, arr2, 3);
+        demo.print(arr1);
     }
 }
