@@ -1,7 +1,5 @@
 package com.hong.smsservice.controller;
 
-import com.hong.common.annotation.AccessLimit;
-import com.hong.common.enums.AccessLimitType;
 import com.hong.smsservice.bean.SMSDto;
 import com.hong.smsservice.service.SmsService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +26,6 @@ public class SmsController {
     private SmsService smsService;
 
     @PostMapping("/send")
-    @AccessLimit(maxCount = 2, seconds = 60, limitType = AccessLimitType.CUSTOMIZE)
     public Object send(@RequestBody SMSDto smsDto, HttpServletRequest request) {
         request.setAttribute("access_limit_customize", smsDto.getTel());
         smsService.send();

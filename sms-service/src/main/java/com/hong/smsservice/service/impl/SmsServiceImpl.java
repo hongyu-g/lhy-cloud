@@ -1,5 +1,7 @@
 package com.hong.smsservice.service.impl;
 
+import com.hong.common.annotation.AccessLimit;
+import com.hong.common.enums.AccessLimitType;
 import com.hong.smsservice.service.SmsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ public class SmsServiceImpl implements SmsService {
 
 
     @Override
+    @AccessLimit(maxCount = 2, seconds = 60, limitType = AccessLimitType.CUSTOMIZE)
     public void send() {
         log.info("发送短信成功");
     }

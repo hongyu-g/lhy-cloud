@@ -37,8 +37,8 @@ import java.util.stream.Collectors;
  * @date 2020/8/6 13:50
  */
 @Slf4j
-//@Component
-//@Aspect
+@Component
+@Aspect
 public class MethodHandler {
 
     @Autowired
@@ -146,8 +146,7 @@ public class MethodHandler {
         int seconds = accessLimit.seconds();
         long count = redisUtil.incr(key, 1);
         if (count == 1) {
-            redisUtil.set(key, 1, seconds);
-            log.info("初始化redis数据");
+            redisUtil.expire(key, seconds);
         }
         int maxCount = accessLimit.maxCount();
         if (count > maxCount) {

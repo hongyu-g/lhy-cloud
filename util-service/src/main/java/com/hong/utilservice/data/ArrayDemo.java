@@ -1,5 +1,9 @@
 package com.hong.utilservice.data;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
+
 /**
  * @author liang
  * @description
@@ -51,21 +55,20 @@ public class ArrayDemo {
         return arr1;
     }
 
-    public int[] merge3(int[] arr1, int[] arr2, int k) {
-        int i = k - 1;
-        int j = arr2.length - 1;
-        int n = arr2.length + k - 1;
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int i = m - 1;
+        int j = n - 1;
+        int k = m + n - 1;
         while (i >= 0 && j >= 0) {
-            if (arr1[i] > arr2[j]) {
-                arr1[n--] = arr1[i--];
+            if (nums1[i] > nums2[j]) {
+                nums1[k--] = nums1[i--];
             } else {
-                arr1[n--] = arr2[j--];
+                nums1[k--] = nums2[j--];
             }
         }
         while (j >= 0) {
-            arr1[n--] = arr2[j--];
+            nums1[k--] = nums2[j--];
         }
-        return arr1;
     }
 
 
@@ -83,12 +86,143 @@ public class ArrayDemo {
         print(arr);
     }
 
+    /**
+     * 删除重复出现的元素
+     * 0,0,1,1,1,2,2,3,3,4
+     * 0,1,2,3,4
+     */
+    public int removeDuplicates(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+        int k = 0;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[k] != nums[i]) {
+                k++;
+                nums[k] = nums[i];
+            }
+        }
+        return k + 1;
+    }
+
+    /**
+     * 删除元素
+     * 0,1,2,2,3,0,4,    2
+     * 0, 1, 3, 0, 4
+     */
+    public int removeElement(int[] nums, int val) {
+        int k = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != val) {
+                nums[k++] = nums[i];
+            }
+        }
+        return k;
+    }
+
+
+    /**
+     * 1,3,5,6   2
+     * 1
+     */
+    public int searchInsert(int[] nums, int target) {
+        int k = 0;
+        while (k < nums.length) {
+            if (nums[k] == target) {
+                return k;
+            }
+            if (nums[k] < target) {
+                k++;
+            } else {
+                return k;
+            }
+        }
+        return nums.length;
+    }
+
+
+    /**
+     * [4,3,2,1]
+     * [4,3,2,2]
+     */
+    public int[] plusOne(int[] digits) {
+        int temp = 1;
+        int num = 0;
+        for (int i = digits.length - 1; i >= 0; i--) {
+            num = digits[i] + temp;
+            digits[i] = num % 10;
+            temp = num / 10;
+        }
+        if (temp < 1) {
+            return digits;
+        }
+        digits = new int[digits.length + 1];
+        digits[0] = 1;
+        return digits;
+    }
+
+
+    /**
+     * 所有偶数元素之后跟着所有奇数元素
+     * [3,1,2,4]
+     * <p>
+     * [2,4,3,1]
+     */
+    public int[] sortArrayByParity(int[] data) {
+        if (data.length == 0) {
+            return data;
+        }
+        int i = 0;
+        int j = data.length - 1;
+        int temp = 0;
+        while (i < j) {
+            while (i < j && (data[i] & 1) == 0) {
+                i++;
+            }
+            while (i < j && (data[j] & 1) == 1) {
+                j--;
+            }
+            if (i < j) {
+                temp = data[i];
+                data[i++] = data[j];
+                data[j--] = temp;
+            }
+        }
+        return data;
+    }
+
+
+    /**
+     * 第三大数
+     * [2, 2, 3, 1]  1
+     */
+    public int thirdMax(int[] nums) {
+        TreeSet<Integer> treeSet = new TreeSet<>();
+        int num;
+        for (int i = 0; i < nums.length; i++) {
+            if (treeSet.size() < 3) {
+                treeSet.add(nums[i]);
+                continue;
+            }
+            System.out.println(treeSet);
+            num = treeSet.first();
+            if (nums[i] > num) {
+                treeSet.add(nums[i]);
+                if (treeSet.size() > 3) {
+                    treeSet.remove(num);
+                }
+            }
+        }
+        if (treeSet.size() < 3) {
+            return treeSet.last();
+        }
+        return treeSet.first();
+    }
 
     public static void main(String[] args) {
-        int[] arr1 = {4, 9, 10, 0, 0, 0};
-        int[] arr2 = {1, 11, 15};
         ArrayDemo demo = new ArrayDemo();
-        arr1 = demo.merge3(arr1, arr2, 3);
-        demo.print(arr1);
+        int[] arr1 = {1, 2, 2};
+        System.out.println(demo.thirdMax(arr1));
+
     }
 }

@@ -79,7 +79,6 @@ public class SynDemo {
                 semaphore.acquire();
                 System.out.println(Thread.currentThread().getName() + ":执行");
                 Thread.sleep(3000);
-
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -100,13 +99,11 @@ public class SynDemo {
     }
 
 
+    private static ThreadPoolExecutor executor = new ThreadPoolUtil().getThreadPool();
+
     public static void main(String[] args) throws Exception {
-        Thread t1 = new Thread(new CDR());
-        t1.start();
-        new Thread(new CDR()).start();
-       // new Thread(new CDR()).start();
-        //t1.interrupt();
-        countDownLatch.await(6, TimeUnit.SECONDS);
-        System.out.println("主线程开始执行");
+        for (int i = 0; i < 10; i++) {
+            executor.execute(new SPR());
+        }
     }
 }
