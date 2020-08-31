@@ -1,10 +1,13 @@
 package com.hong.common.redis;
 
 import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
+import org.checkerframework.checker.units.qual.K;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -19,6 +22,7 @@ public class RedisConfig extends CachingConfigurerSupport {
 
     /**
      * retemplate相关配置
+     *
      * @param factory
      * @return
      */
@@ -43,4 +47,16 @@ public class RedisConfig extends CachingConfigurerSupport {
         return template;
     }
 
+
+
+    @Bean
+    public ListOperations<String, Object> getListOperations(RedisTemplate<String, Object> redisTemplate) {
+        return redisTemplate.opsForList();
+    }
+
+
+    @Bean
+    public HashOperations<String, String, Object> getHashOperations(RedisTemplate<String, Object> redisTemplate) {
+        return redisTemplate.opsForHash();
+    }
 }

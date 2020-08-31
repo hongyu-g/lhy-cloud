@@ -89,12 +89,28 @@ public class ABC {
         }
     }
 
+
+    class ATest implements Runnable {
+        @Override
+        public void run() {
+            lock.lock();
+            try {
+                A.signal();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                lock.unlock();
+            }
+        }
+    }
+
     public static void main(String[] args) {
         ABC demo = new ABC();
         ThreadPoolExecutor executor = ThreadPoolUtil.getThreadPool();
         executor.execute(demo.new A());
-        executor.execute(demo.new B());
-        executor.execute(demo.new C());
+//        executor.execute(demo.new B());
+//        executor.execute(demo.new C());
+        executor.execute(demo.new ATest());
         executor.shutdown();
     }
 

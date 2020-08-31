@@ -2,7 +2,6 @@ package com.hong.userservice;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.hong.common.redis.RedisUtil;
 import com.hong.userservice.bean.User;
 import com.hong.userservice.config.MyTransaction;
 import com.hong.userservice.dao.UserDAO;
@@ -12,7 +11,6 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -66,16 +64,6 @@ class UserServiceApplicationTests {
 
     @Test
     void contextLoads() {
-        User user = new User().setId(10L);
-        User newUser  = new User();
-        BeanUtils.copyProperties(user,newUser);
-        System.out.println(user.getId());
-        System.out.println(newUser.getId());
-
-        user.setId(20L);
-        newUser.setId(30L);
-        System.out.println(user.getId());
-        System.out.println(newUser.getId());
     }
 
     /**

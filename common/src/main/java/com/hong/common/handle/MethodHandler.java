@@ -1,6 +1,7 @@
 package com.hong.common.handle;
 
 import com.google.common.collect.Lists;
+import com.google.common.util.concurrent.RateLimiter;
 import com.hong.common.annotation.AccessLimit;
 import com.hong.common.annotation.CheckToken;
 import com.hong.common.bean.CurrentUserHolder;
@@ -10,6 +11,7 @@ import com.hong.common.exception.AccessException;
 import com.hong.common.exception.AccessLimitException;
 import com.hong.common.redis.RedisUtil;
 import com.hong.common.util.IPUtil;
+import com.hong.common.util.RedisLimiterUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
@@ -29,6 +31,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -144,15 +149,69 @@ public class MethodHandler {
             key = IPUtil.getIpAddr(request);
         }
         int seconds = accessLimit.seconds();
+        int maxCount = accessLimit.maxCount();
+        accessRateLimitToken(key, seconds, maxCount);
+    }
+
+
+    /**
+     * redis计数器
+     *
+     * @param key
+     * @param seconds
+     * @param maxCount
+     */
+    private void accessLimitRedis(String key, int seconds, int maxCount) {
         long count = redisUtil.incr(key, 1);
-        if (count == 1) {
+        try {
+            if (count == 1) {
+                redisUtil.expire(key, seconds);
+            }
+            /**
+             * 1、防止出现并发操作未设置超时时间的场景,这样key就是永不过期,存在风险
+             * 2、给key加一个时间后缀，这样即时出现永不过期的key也只影响其中某一时间段内的key
+             * 3、LUA脚本保证原子性
+             */
+            if (redisUtil.getExpire(key) == -1) {
+                redisUtil.expire(key, seconds);
+            }
+        } catch (Exception e) {
             redisUtil.expire(key, seconds);
         }
-        int maxCount = accessLimit.maxCount();
         if (count > maxCount) {
             throw new AccessLimitException("限流，操作频繁，请稍后重试");
         }
     }
 
+
+    private ConcurrentHashMap<String, RateLimiter> limiterConcurrentHashMap = new ConcurrentHashMap<>();
+
+    /**
+     * 令牌桶，适用于单体应用
+     *
+     * @param key
+     * @param seconds
+     * @param maxCount
+     */
+    private void accessRateLimit(String key, int seconds, int maxCount) {
+        //每秒生成令牌数
+        limiterConcurrentHashMap.putIfAbsent(key, RateLimiter.create(maxCount));
+        boolean b = limiterConcurrentHashMap.get(key).tryAcquire(seconds, TimeUnit.SECONDS);
+        if (!b) {
+            throw new AccessLimitException("限流，操作频繁，请稍后重试");
+        }
+    }
+
+
+    @Autowired
+    private RedisLimiterUtils redisLimiterUtils;
+
+    private void accessRateLimitToken(String key, int max, int rate) {
+        //1秒 2个
+        boolean b = redisLimiterUtils.tryAcquire2(key, 100, rate);
+        if (!b) {
+            throw new AccessLimitException("限流，操作频繁，请稍后重试");
+        }
+    }
 
 }

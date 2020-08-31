@@ -1,7 +1,9 @@
 package com.hong.utilservice.java;
 
+import com.google.common.util.concurrent.RateLimiter;
 import com.hong.utilservice.thread.ThreadPoolUtil;
 
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -61,13 +63,14 @@ public class LimitDemo {
 
     /**
      * 基于java限流：信号量
+     * 控制同时访问接口的数量
      */
     public void semaphoreTest() {
         for (int i = 0; i < 20; i++) {
             executor.execute(() -> {
                 boolean flag = false;
                 try {
-                    flag = semaphore.tryAcquire(100, TimeUnit.MICROSECONDS);
+                    flag = semaphore.tryAcquire(100, TimeUnit.MILLISECONDS);
                     if (flag) {
                         //休眠2秒，模拟下单操作
                         System.out.println(Thread.currentThread() + "，尝试下单中。。。。。");
@@ -86,34 +89,40 @@ public class LimitDemo {
         }
     }
 
+    /**
+     * 每秒生成的令牌数
+     */
+    private RateLimiter rateLimiter = RateLimiter.create(1);
 
-    public void semaphoreTest2() {
+
+    /**
+     * 令牌桶：线程拿到令牌才能执行，以一定的速率访问接口
+     */
+    private void accessRateLimit() {
+        //每秒生成令牌数
         for (int i = 0; i < 20; i++) {
             executor.execute(() -> {
                 try {
-                    semaphore.acquire();
-                    //休眠2秒，模拟下单操作
-                    System.out.println(Thread.currentThread() + "，尝试下单中。。。。。");
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
+                    //在指定时间内没有获取到令牌，直接放弃
+                    boolean b = rateLimiter.tryAcquire(500, TimeUnit.MILLISECONDS);
+                    if (b) {
+                        System.out.println(Thread.currentThread() + "，执行中。。。。。");
+                    } else {
+                        System.out.println(Thread.currentThread() + "，秒杀失败，请稍微重试！");
+                    }
+                } catch (Exception e) {
                     e.printStackTrace();
-                } finally {
-                    semaphore.release();
                 }
+
             });
         }
         executor.shutdown();
     }
 
 
-    /**
-     * java实现本地缓存
-     * @param args
-     */
-
     public static void main(String[] args) {
         LimitDemo demo = new LimitDemo();
-        demo.semaphoreTest();
+        demo.accessRateLimit();
     }
 
 
