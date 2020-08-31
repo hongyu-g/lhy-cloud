@@ -1,5 +1,6 @@
 package com.hong.utilservice.thread;
 
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -8,9 +9,12 @@ import java.util.concurrent.locks.ReentrantLock;
  * @description
  * @date 2020/7/9 15:58
  */
-public class SynDemo2 {
+public class ABC {
 
 
+    /**
+     * 输出ABC
+     */
     private ReentrantLock lock = new ReentrantLock();
 
     private Condition A = lock.newCondition();
@@ -21,8 +25,7 @@ public class SynDemo2 {
 
     private int state;
 
-
-    class MyRunnable implements Runnable {
+    class A implements Runnable {
         @Override
         public void run() {
             for (int i = 0; i < 10; i++) {
@@ -43,7 +46,8 @@ public class SynDemo2 {
         }
     }
 
-    class MyRunnable2 implements Runnable {
+
+    class B implements Runnable {
         @Override
         public void run() {
             for (int i = 0; i < 10; i++) {
@@ -60,13 +64,11 @@ public class SynDemo2 {
                 } finally {
                     lock.unlock();
                 }
-
             }
         }
-
     }
 
-    class MyRunnable3 implements Runnable {
+    class C implements Runnable {
         @Override
         public void run() {
             for (int i = 0; i < 10; i++) {
@@ -85,16 +87,15 @@ public class SynDemo2 {
                 }
             }
         }
-
     }
 
-
     public static void main(String[] args) {
-        SynDemo2 demo = new SynDemo2();
-        new Thread(demo.new MyRunnable()).start();
-        new Thread(demo.new MyRunnable2()).start();
-        new Thread(demo.new MyRunnable3()).start();
-
+        ABC demo = new ABC();
+        ThreadPoolExecutor executor = ThreadPoolUtil.getThreadPool();
+        executor.execute(demo.new A());
+        executor.execute(demo.new B());
+        executor.execute(demo.new C());
+        executor.shutdown();
     }
 
 }

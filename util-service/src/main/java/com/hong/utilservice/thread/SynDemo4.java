@@ -38,13 +38,15 @@ public class SynDemo4 {
     }
 
 
-    public static void main(String[] args)throws Exception {
-        SynDemo4 synDemo = new SynDemo4();
-        new Thread(synDemo.new MyRunnable1()).start();
-        new Thread(synDemo.new MyRunnable2()).start();
+    public void test() throws Exception {
         Field field = Unsafe.class.getDeclaredField("theUnsafe");
         field.setAccessible(true);
-        Unsafe unsafe = (Unsafe)field.get(null);
+        Unsafe unsafe = (Unsafe) field.get(null);
+    }
+
+
+    public static void main(String[] args) throws Exception {
+
     }
 
 }

@@ -5,9 +5,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ThreadPoolUtil {
 
-    private AtomicInteger atomicInteger = new AtomicInteger();
-
-    private BlockingQueue<Runnable> blockingQueue = new LinkedBlockingQueue<>(1000);
 
     /**
      * CPU核数
@@ -15,7 +12,8 @@ public class ThreadPoolUtil {
     private final static int CPU_COUNT = Runtime.getRuntime().availableProcessors();
 
 
-    private ThreadFactory getThreadFactory() {
+    private static ThreadFactory getThreadFactory() {
+        AtomicInteger atomicInteger = new AtomicInteger();
         return new ThreadFactory() {
             @Override
             public Thread newThread(Runnable r) {
@@ -33,11 +31,11 @@ public class ThreadPoolUtil {
     }
 
 
-    public ThreadPoolExecutor getThreadPool() {
+    public static ThreadPoolExecutor getThreadPool() {
+        BlockingQueue<Runnable> blockingQueue = new LinkedBlockingQueue<>(1000);
         return new ThreadPoolExecutor(CPU_COUNT, CPU_COUNT + 1, 1, TimeUnit.SECONDS,
                 blockingQueue, getThreadFactory(), new ThreadPoolRejectedExecutionHandler());
     }
-
 
 
     private ExecutorService executor1 = Executors.newFixedThreadPool(10);

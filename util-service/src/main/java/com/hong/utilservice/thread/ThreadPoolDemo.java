@@ -16,7 +16,7 @@ public class ThreadPoolDemo {
 
     private BlockingQueue blockingQueue = new LinkedBlockingQueue(100);
 
-    private ThreadPoolExecutor executor = new ThreadPoolUtil().getThreadPool();
+    private ThreadPoolExecutor executor = ThreadPoolUtil.getThreadPool();
 
 
     class MyRunnable implements Runnable {
