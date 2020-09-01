@@ -188,10 +188,44 @@ public class DemoTest implements Serializable {
         }
     }
 
+    /**
+     * 转义字符 \
+     */
+    public void charDemo() {
+        //字符常量
+        char c = 'A';
+        c = '8';
+        c = '\n';
+        c = '\'';
+        //c= '\008';
+        System.out.println(c);
+    }
 
+    //初始值：0.0
+    private double num;
+
+    //初始值：'' 空
+    private char aChar;
+
+    public void test() {
+        for (int i = 0, s = 0; i < 5; i++) {
+            s += ++i;
+            System.out.print(s);
+        }
+    }
+
+    protected int count;
+
+
+    public void stringDemo() {
+        String str = "ABCDE";
+        int x = 1;
+        System.out.println(str.substring(1));
+        System.out.println(str.substring(0, 1));
+    }
 
     public static void main(String[] args) {
         DemoTest demo = new DemoTest();
-        System.out.println(50*24*60*60);
+        demo.stringDemo();
     }
 }
