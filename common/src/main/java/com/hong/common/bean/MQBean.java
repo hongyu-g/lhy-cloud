@@ -37,7 +37,7 @@ public class MQBean {
     /**
      * 延迟投递时间，单位秒
      */
-    private Integer delayTime;
+    private Integer delayTimeLevel;
 
     /**
      * 业务id

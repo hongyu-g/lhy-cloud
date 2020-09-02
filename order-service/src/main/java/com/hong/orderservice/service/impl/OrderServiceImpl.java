@@ -34,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
         order.setUserId(userId);
         //预订单
         MQBean mqBean = new MQBean().setData(JSONObject.toJSONString(order)).setTopic(smsTopic)
-                .setMsgType(MessageType.GENERAL_MESSAGE.getId()).setBusinessId(userId);
+                .setMsgType(MessageType.DELAY_MESSAGE.getId()).setBusinessId(userId).setDelayTimeLevel(5);
         mqFeignClient.produce(mqBean);
     }
 }

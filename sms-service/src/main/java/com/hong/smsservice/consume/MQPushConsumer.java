@@ -24,7 +24,7 @@ import java.util.List;
  * @description
  * @date 2020/6/23 16:43
  */
-//@Component
+@Component
 @Slf4j
 public class MQPushConsumer implements MessageListenerConcurrently {
 

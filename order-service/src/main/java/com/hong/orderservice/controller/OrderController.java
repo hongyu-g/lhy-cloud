@@ -25,10 +25,9 @@ public class OrderController {
     private UserFeign userFeign;
 
 
-
     @PostMapping("/createOrder")
-    public Object createOrder(@RequestParam Long userId) {
-        return userFeign.getUser(userId);
+    public void createOrder(@RequestParam Long userId) {
+        orderService.create(userId);
     }
 
 

@@ -17,7 +17,7 @@ public class SmsServiceImpl implements SmsService {
 
 
     @Override
-    @AccessLimit(maxCount = 2, seconds = 60, limitType = AccessLimitType.CUSTOMIZE)
+    //@AccessLimit(maxCount = 2, seconds = 60, limitType = AccessLimitType.CUSTOMIZE)
     public void send() {
         log.info("发送短信成功");
     }

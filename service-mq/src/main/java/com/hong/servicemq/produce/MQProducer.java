@@ -75,8 +75,8 @@ public class MQProducer {
                 sendOrderedMessage(mqMsg, mqBean.getBusinessId());
             }
             if (MessageType.DELAY_MESSAGE.getId() == mqBean.getMsgType()) {
-                // 设置投递的延迟时间
-                mqMsg.setDelayTimeLevel(mqBean.getDelayTime());
+                // 设置投递的延迟等级
+                mqMsg.setDelayTimeLevel(mqBean.getDelayTimeLevel());
                 sendDelayMessage(mqMsg);
             }
         } catch (Exception e) {

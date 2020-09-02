@@ -12,9 +12,9 @@ public class StaticDemo {
      */
     private static int num = 1;
 
-    public StaticDemo(){
-        System.out.println(num);
-    }
+
+    private final int count = 10;
+    private final User user = new User();
 
     /**
      * 类名调用，生命周期随和类相同
@@ -25,6 +25,10 @@ public class StaticDemo {
     }
 
     public static void main(String[] args) {
-        new StaticDemo();
+        User user = new StaticDemo().user;
+        user.setId(10);
+        System.out.println(user);
+        User user2 = new StaticDemo().user;
+        System.out.println(user2);
     }
 }
