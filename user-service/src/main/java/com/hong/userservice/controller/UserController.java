@@ -25,8 +25,8 @@ public class UserController {
     @HystrixCommand(fallbackMethod = "fallback")
     @GetMapping("/get")
     public Object getUser(@RequestParam Long userId) {
-        log.error("线程名称：" + Thread.currentThread().getName());
-        if(userId<=0){
+        log.info("线程名称：" + Thread.currentThread().getName());
+        if (userId <= 0) {
             throw new RuntimeException("非法请求");
         }
         return userService.getUser(userId);
