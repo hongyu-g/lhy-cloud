@@ -1,3 +1,18 @@
 server:
   # 服务端口号
   port: 10082
+
+eureka:
+  client:
+    service-url:
+      # 填写注册中心服务器地址
+      defaultZone: http://eureka-two:10081/eureka,http://eureka-one:1081/eureka
+    # 是否需要将自己注册到注册中心
+    register-with-eureka: true
+    # 是否需要搜索服务信息
+    fetch-registry: true
+  instance:
+    # 使用ip地址注册到注册中心
+    prefer-ip-address: true
+    # 注册中心列表中显示的状态参数
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}

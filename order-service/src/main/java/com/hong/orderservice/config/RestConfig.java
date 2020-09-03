@@ -13,10 +13,23 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class RestConfig {
 
+    /**
+     * @LoadBalanced 开启负载均衡
+     */
     @Bean
     @LoadBalanced
-    public RestTemplate getRestTemplate(){
+    public RestTemplate getRestTemplate() {
         return new RestTemplate();
     }
+
+    /**
+     * RoundRobinRule 轮询
+     * RandomRule 随机
+     * AvailabilityFilteringRule
+     */
+//    @Bean
+//    public IRule getIRule() {
+//        return new RoundRobinRule();
+//    }
 
 }
