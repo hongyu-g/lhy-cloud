@@ -25,8 +25,9 @@ public class OrderController {
     @Autowired
     private UserFeign userFeign;
 
+
     @Autowired
-    private RestTemplate restTemplate;
+    public RestTemplate restTemplate;
 
     @PostMapping("/createOrder")
     public Object createOrder(@RequestParam Long userId) {
