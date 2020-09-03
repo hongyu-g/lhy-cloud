@@ -4,6 +4,7 @@ import com.hong.userservice.service.UserService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,14 +23,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Value("${server.port}")
+    private String port;
+
     @HystrixCommand(fallbackMethod = "fallback")
     @GetMapping("/get")
     public Object getUser(@RequestParam Long userId) {
-        log.info("线程名称：" + Thread.currentThread().getName());
         if (userId <= 0) {
             throw new RuntimeException("非法请求");
         }
-        return userService.getUser(userId);
+        return "访问user-service，port:" + port;
     }
 
     public Object fallback(Long userId) {

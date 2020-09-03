@@ -1,9 +1,9 @@
 server:
-  # 服务端口号
-  port: 10082
   servlet:
     context-path: /user
 spring:
+  profiles:
+    active: one
   application:
     # 服务名称 - 服务之间使用名称进行通讯
     name: user-service
@@ -49,7 +49,7 @@ eureka:
   client:
     service-url:
       # 填写注册中心服务器地址
-      defaultZone: http://127.0.0.1:10081/eureka
+      defaultZone: http://eureka-one:1081/eureka,http://eureka-two:10081/eureka
     # 是否需要将自己注册到注册中心
     register-with-eureka: true
     # 是否需要搜索服务信息
