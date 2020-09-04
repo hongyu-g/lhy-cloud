@@ -9,7 +9,7 @@ eureka:
       # 配置eureka服务器地址，双节点的服务注册中心集群
       defaultZone: http://eureka-two:10081/eureka
     #是否需要将自己注册到注册中心(注册中心集群需要设置为true)
-    register-with-eureka: false
+    register-with-eureka: true
     #是否需要搜索服务信息 因为自己是注册中心所以为false
     fetch-registry: false
   server:

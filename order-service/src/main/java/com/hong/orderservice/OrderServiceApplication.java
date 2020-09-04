@@ -18,7 +18,6 @@ import org.springframework.web.client.RestTemplate;
 @EnableFeignClients(basePackages = "com.hong")
 @EnableHystrix
 @EnableHystrixDashboard
-@RibbonClient("user-service")//启动ribbon
 public class OrderServiceApplication {
 
     public static void main(String[] args) {
