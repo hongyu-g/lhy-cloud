@@ -162,6 +162,7 @@ public class LN {
         return head;
     }
 
+
     /**
      * 给定一个链表: 1->2->3->4->5, 和 n = 2.
      * <p>
