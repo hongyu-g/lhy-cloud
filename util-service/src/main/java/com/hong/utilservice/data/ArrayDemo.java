@@ -219,10 +219,21 @@ public class ArrayDemo {
         return treeSet.first();
     }
 
+
+    public int singleNumber(int[] nums) {
+        if (nums == null) {
+            return -1;
+        }
+        int num = 0;
+        for (int i = 0; i < nums.length; i++) {
+            num = num ^ nums[i];
+        }
+        return num;
+    }
+
     public static void main(String[] args) {
         ArrayDemo demo = new ArrayDemo();
-        int[] arr1 = {1, 2, 2};
-        System.out.println(demo.thirdMax(arr1));
-
+        int[] arr1 = {1, 3, 1, 2, 2};
+        System.out.println(demo.singleNumber(arr1));
     }
 }

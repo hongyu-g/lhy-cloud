@@ -10,7 +10,7 @@ eureka:
       defaultZone: http://eureka-two:1081/eureka
     #是否需要将自己注册到注册中心(注册中心集群需要设置为true，才能配合ribbon使用负载均衡)
     register-with-eureka: true
-    #是否需要搜索服务信息
+    #是否需要拉取服务信息
     fetch-registry: true
   server:
     enableSelfPreservation: false # 本地调试环境下关闭自我保护机制

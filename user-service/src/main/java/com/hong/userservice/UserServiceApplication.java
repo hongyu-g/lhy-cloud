@@ -12,8 +12,8 @@ import org.springframework.context.annotation.ComponentScan;
  * 开启服务保护
  */
 @SpringBootApplication
-@EnableEurekaClient
-@EnableHystrix
+@EnableEurekaClient// 服务注册发现
+@EnableHystrix //启动断路器
 @MapperScan("com.hong.userservice.dao")
 @ComponentScan("com.hong")
 public class UserServiceApplication {

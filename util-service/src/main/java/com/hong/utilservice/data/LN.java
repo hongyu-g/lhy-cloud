@@ -1,5 +1,8 @@
 package com.hong.utilservice.data;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author liang
  * @description
@@ -113,6 +116,77 @@ public class LN {
         return head;
     }
 
+    /**
+     * 是不是环形链表
+     */
+    public boolean hasCycle(ListNode head) {
+        if (head == null) {
+            return false;
+        }
+        Set<ListNode> set = new HashSet<>();
+        while (head != null) {
+            if (set.contains(head)) {
+                return true;
+            }
+            set.add(head);
+            head = head.next;
+        }
+        return false;
+    }
+
+
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        if (head == null) {
+            return null;
+        }
+        int index = 0;
+        ListNode node = head;
+        while (node != null) {
+            node = node.next;
+            index++;
+        }
+        int p = index - n;
+        if (p == 0) {
+            return head.next;
+        }
+        ListNode node1 = head;
+        while (p != 1) {
+            node1 = node1.next;
+            p--;
+        }
+        ListNode next = node1.next;
+        if (next != null) {
+            next = next.next;
+        }
+        node1.next = next;
+        return head;
+    }
+
+    /**
+     * 给定一个链表: 1->2->3->4->5, 和 n = 2.
+     * <p>
+     * 当删除了倒数第二个节点后，链表变为 1->2->3->5.
+     */
+    public ListNode removeNthFromEnd2(ListNode head, int n) {
+        if (head == null) {
+            return null;
+        }
+        int k = n + 1;
+        ListNode p1 = head;
+        while (k > 1 && p1 != null) {
+            p1 = p1.next;
+            k--;
+        }
+        if (p1 == null) {
+            return head.next;
+        }
+        while (p1 != null) {
+
+            p1 = p1.next;
+        }
+        return head;
+    }
+
     void print(ListNode node) {
         while (node != null) {
             System.out.print(node.value);
@@ -148,7 +222,7 @@ public class LN {
         node2.next = node3;
         node3.next = node4;
         node4.next = node5;
-        ListNode node = ln.oddEvenList2(node1);
+        ListNode node = ln.removeNthFromEnd(node1, 4);
         ln.print(node);
     }
 

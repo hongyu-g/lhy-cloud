@@ -31,8 +31,8 @@ public class OrderController {
 
     @PostMapping("/createOrder")
     public Object createOrder(@RequestParam Long userId) {
-        return restTemplate.getForEntity("http://user-service/user/web/get?userId=" + userId, String.class).getBody();
-        //return userFeign.getUser(userId);
+        //return restTemplate.getForEntity("http://user-service/user/web/get?userId=" + userId, String.class).getBody();
+        return userFeign.getUser(userId);
     }
 
 
