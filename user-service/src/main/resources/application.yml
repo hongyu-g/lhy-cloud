@@ -17,14 +17,14 @@ spring:
 #        # 配置中心别名
 #        service-id: service-config
   datasource:
-    url: jdbc:mysql://localhost:3306/lhy?useUnicode=true&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
-    #url: jdbc:mysql://192.168.1.153:3306/users?useUnicode=true&useSSL=false&allowMultiQueries=true
+    #url: jdbc:mysql://localhost:3306/lhy?useUnicode=true&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://192.168.1.153:3306/users?useUnicode=true&useSSL=false&allowMultiQueries=true
     username: root
-    password:
+    password: xykj
   redis:
     #Redis数据库索引（默认为0）
     database: 0
-    host: localhost
+    host: 192.168.1.153
     port: 6379
     password:
     #连接超时时间（毫秒）

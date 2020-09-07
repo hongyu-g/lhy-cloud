@@ -41,18 +41,19 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserServiceImpl2 userServiceImpl2;
 
+    /**
+     * 处在不同的事务中，操作同一条记录会产生死锁
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateUser(Long userId, String name) {
         userDAO.updateUser(userId, name);
-        /**
-         * 处在不同的事务中，操作同一条记录会产生死锁
-         */
-        userServiceImpl2.updateUser2(2L,"hong");
-        userDAO.updateUser(3L, "enen");
-
+        try {
+            userServiceImpl2.updateUser2(227L, "hong11");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-
 
 
 }
