@@ -46,24 +46,17 @@ spring:
       ddl-auto: none
 
 
-# ribbon客户端负载均衡，默认的负载均衡策略是轮询
-ribbon:
-  #建立连接超时时间
-  ConnectTimeout: 5000
-  #读取资源超时间
-  ReadTimeout: 5000
-
-# 忽略hystrix的超时时间
-hystrix:
-  command:
-    default:
-      execution:
-        timeout:
-          enabled: false
-
 # pagehelper
 pagehelper:
     helperDialect: mysql
     reasonable: true
     supportMethodsArguments: true
     params: count=countSql
+
+# 是否开启超时熔断, 如果为false, 则熔断机制只在服务不可用时开启
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true

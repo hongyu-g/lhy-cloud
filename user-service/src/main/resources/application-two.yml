@@ -6,7 +6,7 @@ eureka:
   client:
     service-url:
       # 填写注册中心服务器地址
-      defaultZone: http://eureka-two:10081/eureka,http://eureka-one:1081/eureka
+      defaultZone: http://eureka-two:1081/eureka,http://eureka-one:10081/eureka
     # 是否需要将自己注册到注册中心
     register-with-eureka: true
     # 是否需要搜索服务信息

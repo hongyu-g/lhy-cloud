@@ -1,5 +1,7 @@
 package com.hong.orderservice.config;
 
+import com.netflix.loadbalancer.IRule;
+import com.netflix.loadbalancer.RoundRobinRule;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,9 +28,9 @@ public class RestConfig {
      * 负载均衡策略
      * RoundRobinRule 轮询（默认）
      */
-//    @Bean
-//    public IRule getIRule() {
-//        return new MyRule();
-//    }
+    @Bean
+    public IRule getIRule() {
+        return new RoundRobinRule();
+    }
 
 }
