@@ -26,6 +26,9 @@ public class UserController {
     @Value("${server.port}")
     private String port;
 
+    @Value("${name}")
+    private String name;
+
     @GetMapping("/get")
     public Object getUser(@RequestParam Long userId) {
         System.out.println(Thread.currentThread().getName());
@@ -35,6 +38,12 @@ public class UserController {
         return "访问user-service，port:" + port;
     }
 
+
+    @GetMapping("/getName")
+    public Object getName() {
+        return name;
+    }
+
     public Object fallback(Long userId) {
         System.out.println("test");
         return "服务器繁忙";
@@ -42,7 +51,6 @@ public class UserController {
 
 
     /**
-     *
      * @param userId
      * @return
      */

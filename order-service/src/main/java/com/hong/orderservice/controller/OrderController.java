@@ -1,6 +1,7 @@
 package com.hong.orderservice.controller;
 
 import com.hong.common.feign.UserFeign;
+import com.hong.orderservice.config.HttpUtil;
 import com.hong.orderservice.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,9 @@ public class OrderController {
      */
     @PostMapping("/createOrder")
     public Object createOrder(@RequestParam Long userId) {
-        httpUtil.hystrixTest1(userId);
-        httpUtil.hystrixTest2(userId);
-        return "success";
+//        httpUtil.hystrixTest1(userId);
+//        httpUtil.hystrixTest2(userId);
+        return userFeign.getUser(userId);
     }
 
 

@@ -7,15 +7,15 @@ spring:
   application:
     # 服务名称 - 服务之间使用名称进行通讯
     name: user-service
-#  cloud:
-#    config:
-#      # 配置文件环境
-#      profile: dev
-#      discovery:
-#        # 开启配置中心
-#        enabled: true
-#        # 配置中心别名
-#        service-id: service-config
+  cloud:
+    config:
+      # 配置文件环境
+      profile: dev
+      discovery:
+        # 开启配置中心
+        enabled: true
+        # 配置中心别名
+        service-id: service-config
   datasource:
     #url: jdbc:mysql://localhost:3306/lhy?useUnicode=true&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
     url: jdbc:mysql://192.168.1.153:3306/users?useUnicode=true&useSSL=false&allowMultiQueries=true
