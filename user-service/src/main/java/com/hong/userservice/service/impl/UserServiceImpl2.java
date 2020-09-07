@@ -18,10 +18,12 @@ public class UserServiceImpl2 {
     @Autowired
     private UserDAO userDAO;
 
-    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
-    public void updateUser2(Long userId,String name) {
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+    public void updateUser2(Long userId, String name) {
         userDAO.updateUser(userId, name);
-
+        if (1 == 1) {
+            throw new RuntimeException("test");
+        }
     }
 
 }

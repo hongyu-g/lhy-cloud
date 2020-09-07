@@ -1,7 +1,6 @@
 package com.hong.common.redis;
 
 import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
-import org.checkerframework.checker.units.qual.K;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

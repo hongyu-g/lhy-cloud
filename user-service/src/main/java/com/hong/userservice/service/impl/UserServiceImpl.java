@@ -48,10 +48,8 @@ public class UserServiceImpl implements UserService {
         /**
          * 处在不同的事务中，操作同一条记录会产生死锁
          */
-        userServiceImpl2.updateUser2(34L,"hong8");
-        if(1==1){
-            throw new RuntimeException("test");
-        }
+        userServiceImpl2.updateUser2(2L,"hong");
+        userDAO.updateUser(3L, "enen");
 
     }
 

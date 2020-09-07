@@ -7,33 +7,47 @@ package com.hong.utilservice.java;
  */
 public class Animal {
 
+    static {
+        System.out.println("static Animal");
+    }
+
+    public static int value = 1;
+
+    public Animal() {
+        System.out.println("构造方法 Animal");
+    }
+
     public void eat() {
         System.out.println("animal eat");
     }
 
-    public void test() {
-        //调用的子类的
-        eat();
+    /**
+     * 静态绑定
+     */
+    public static void sleep() {
+        System.out.println("animal sleep");
     }
+
+    /**
+     * 私有方法
+     */
+    private void hit() {
+        System.out.println("animal hit");
+    }
+
+    /**
+     * final修饰的
+     */
+    public final void hello() {
+        System.out.println("animal hello");
+    }
+
 
     public static void main(String[] args) {
-        //Animal animal = new Animal(); error
         Animal animal = new Dog();
-        Dog dog = (Dog) animal;
-        dog.eat();
-
-        dog = new Dog();
-        animal = (Animal) dog;
-        animal.eat();
-        animal.test();
+        animal.sleep();
+        animal.hit();
+        animal.hello();
     }
 
-}
-
-class Dog extends Animal {
-
-    @Override
-    public void eat() {
-        System.out.println("dog eat");
-    }
 }

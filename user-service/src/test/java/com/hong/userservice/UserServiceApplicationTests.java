@@ -64,6 +64,7 @@ class UserServiceApplicationTests {
 
     @Test
     void contextLoads() {
+        userService.updateUser(1L,"hong");
     }
 
     /**
