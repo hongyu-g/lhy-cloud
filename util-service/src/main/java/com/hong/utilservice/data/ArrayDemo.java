@@ -236,29 +236,24 @@ public class ArrayDemo {
 
 
     public int searchInsert2(int[] nums, int target) {
-        int k = 0;
-        int j = nums.length - 1;
-        int m = 0;
-        while (k <= j) {
-            m = (k + j) / 2;
-            if (nums[m] == target) {
-                return m;
-            } else if (nums[m] > target) {
-                j = m - 1;
+        int left = 0;
+        int right = nums.length - 1;
+        int m;
+        while (left <= right) {
+            m = (left + right) / 2;
+            if (nums[m] >= target) {
+                right = m - 1;
             } else {
-                k = m + 1;
+                left = m + 1;
             }
         }
-        if (k == 0) {
-            return 0;
-        }
-        return j + 1;
+        return left;
     }
 
 
     public static void main(String[] args) {
         ArrayDemo demo = new ArrayDemo();
         int[] arr1 = {1, 3, 5, 6};
-        System.out.println(demo.searchInsert2(arr1, 4));
+        System.out.println(demo.searchInsert2(arr1, 0));
     }
 }
