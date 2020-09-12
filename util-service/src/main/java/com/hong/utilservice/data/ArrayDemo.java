@@ -122,26 +122,6 @@ public class ArrayDemo {
 
 
     /**
-     * 1,3,5,6   2
-     * 1
-     */
-    public int searchInsert(int[] nums, int target) {
-        int k = 0;
-        while (k < nums.length) {
-            if (nums[k] == target) {
-                return k;
-            }
-            if (nums[k] < target) {
-                k++;
-            } else {
-                return k;
-            }
-        }
-        return nums.length;
-    }
-
-
-    /**
      * [4,3,2,1]
      * [4,3,2,2]
      */
@@ -231,9 +211,54 @@ public class ArrayDemo {
         return num;
     }
 
+
+    /**
+     * 数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
+     * 假设数组中无重复元素
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int searchInsert(int[] nums, int target) {
+        int k = 0;
+        while (k < nums.length) {
+            if (nums[k] == target) {
+                return k;
+            }
+            if (nums[k] > target) {
+                return k;
+            }
+            k++;
+        }
+        return nums.length;
+    }
+
+
+    public int searchInsert2(int[] nums, int target) {
+        int k = 0;
+        int j = nums.length - 1;
+        int m = 0;
+        while (k <= j) {
+            m = (k + j) / 2;
+            if (nums[m] == target) {
+                return m;
+            } else if (nums[m] > target) {
+                j = m - 1;
+            } else {
+                k = m + 1;
+            }
+        }
+        if (k == 0) {
+            return 0;
+        }
+        return j + 1;
+    }
+
+
     public static void main(String[] args) {
         ArrayDemo demo = new ArrayDemo();
-        int[] arr1 = {1, 3, 1, 2, 2};
-        System.out.println(demo.singleNumber(arr1));
+        int[] arr1 = {1, 3, 5, 6};
+        System.out.println(demo.searchInsert2(arr1, 4));
     }
 }
