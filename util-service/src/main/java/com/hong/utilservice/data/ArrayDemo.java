@@ -234,26 +234,75 @@ public class ArrayDemo {
         return nums.length;
     }
 
-
     public int searchInsert2(int[] nums, int target) {
         int left = 0;
         int right = nums.length - 1;
-        int m;
+        int m = 0;
         while (left <= right) {
             m = (left + right) / 2;
-            if (nums[m] >= target) {
-                right = m - 1;
-            } else {
+            if (nums[m] == target) {
+                return m;
+            } else if (nums[m] < target) {
                 left = m + 1;
+            } else {
+                right = m - 1;
             }
         }
         return left;
     }
 
 
+    /**
+     * 二分法
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int search(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length - 1;
+        int m = 0;
+        while (left <= right) {
+            m = (left + right) / 2;
+            if (nums[m] == target) {
+                return m;
+            } else if (nums[m] < target) {
+                left = m + 1;
+            } else {
+                right = m - 1;
+            }
+        }
+        return -1;
+    }
+
+
+    /**
+     * 归并
+     *
+     * @param nums
+     */
+    public void merge(int[] nums) {
+
+    }
+
+
+    public void twoNum() {
+        int[][] data = new int[][]{{1}, {2}};
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[i].length; j++) {
+                System.out.println(data[i][j]);
+            }
+        }
+        int[][] data2 = new int[1][2];
+        int[] data3[] = {{1}, {2}};
+        int data4[][] = {{1}, {2}};
+        int[][] data5 = {{1}, {2}};
+    }
+
+
     public static void main(String[] args) {
         ArrayDemo demo = new ArrayDemo();
-        int[] arr1 = {1, 3, 5, 6};
-        System.out.println(demo.searchInsert2(arr1, 0));
+        int[] arr1 = {7, 9, 1, 2, 5};
     }
 }
