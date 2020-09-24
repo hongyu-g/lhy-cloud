@@ -228,6 +228,28 @@ public class LN {
     }
 
 
+    public void reverse(ListNode head) {
+        print(head);
+        ListNode pre = null;
+        ListNode next;
+        while (head != null) {
+            next = head.next;
+            head.next = pre;
+            pre = head;
+            head = next;
+        }
+        print(pre);
+    }
+
+
+
+    /**
+     * 链表相交节点
+     */
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        return null;
+    }
+
     public static void main(String[] args) {
         LN ln = new LN();
         ListNode node1 = ln.new ListNode(1);
@@ -239,8 +261,7 @@ public class LN {
         node2.next = node3;
         node3.next = node4;
         node4.next = node5;
-        ListNode node = ln.removeNthFromEnd(node1, 4);
-        ln.print(node);
+        ln.reverse(node1);
     }
 
 }

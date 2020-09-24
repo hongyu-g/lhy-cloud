@@ -1,8 +1,6 @@
 package com.hong.utilservice.data;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * @author liang
@@ -103,21 +101,6 @@ public class ArrayDemo {
             }
         }
         return k + 1;
-    }
-
-    /**
-     * 删除元素
-     * 0,1,2,2,3,0,4,    2
-     * 0, 1, 3, 0, 4
-     */
-    public int removeElement(int[] nums, int val) {
-        int k = 0;
-        for (int i = 0; i < nums.length; i++) {
-            if (nums[i] != val) {
-                nums[k++] = nums[i];
-            }
-        }
-        return k;
     }
 
 
@@ -251,9 +234,269 @@ public class ArrayDemo {
     }
 
 
-    public static void main(String[] args) {
-        ArrayDemo demo = new ArrayDemo();
-        int[] arr1 = {1, 3, 5, 6};
-        System.out.println(demo.searchInsert2(arr1, 0));
+    public double func(double x) {
+        if (x == 0 || x == 1 || x == -1) {
+            return x;
+        }
+        double left = x > 0 ? 0 : x;
+        double right = x > 0 ? x : 0;
+        double mid;
+        double target;
+        while (left < right) {
+            mid = (left + right) / 2;
+            target = mid * mid * mid;
+            if (target > x) {
+                right = mid;
+            } else if (target < x) {
+                left = mid;
+            } else {
+                return mid;
+            }
+        }
+        return 0;
     }
+
+    public void find2(int[] data, int target) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < data.length; i++) {
+            if (map.get(data[i]) != null) {
+                System.out.println(map.get(data[i]));
+                System.out.println(i);
+                return;
+            }
+            map.put(target - data[i], i);
+        }
+    }
+
+
+    public int removeElement(int[] nums, int val) {
+        if (nums == null) {
+            return -1;
+        }
+        int i = 0;
+        int j = nums.length - 1;
+        int temp = 0;
+        while (i <= j) {
+            while (i <= j && nums[i] != val) {
+                i++;
+            }
+            while (i <= j && nums[j] == val) {
+                j--;
+            }
+            if (i < j) {
+                temp = nums[i];
+                nums[i] = nums[j];
+                nums[j] = temp;
+            }
+        }
+        return i;
+    }
+
+
+    public int removeElement2(int[] nums, int val) {
+        int j = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != val) {
+                nums[j] = nums[i];
+                j++;
+            }
+        }
+        return j;
+    }
+
+
+    public boolean canConstruct(String ransomNote, String magazine) {
+        Map<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < magazine.length(); i++) {
+            if (map.get(magazine.charAt(i)) != null) {
+                map.put(magazine.charAt(i), map.get(magazine.charAt(i)) + 1);
+            } else {
+                map.put(magazine.charAt(i), 1);
+            }
+        }
+        for (int i = 0; i < ransomNote.length(); i++) {
+            char c = ransomNote.charAt(i);
+            if (map.get(c) != null && map.get(c) != 0) {
+                map.put(c, map.get(c) - 1);
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 长度最小的子数组
+     */
+    public int minSubArrayLen(int s, int[] nums) {
+        int left = 0;
+        int right = 0;
+        int sum = 0;
+        int ans = Integer.MAX_VALUE;
+        while (right < nums.length) {
+            sum += nums[right];
+            while (sum >= s) {
+                ans = Math.min(ans, right - left + 1);
+                sum -= nums[left];
+                left++;
+            }
+            right++;
+        }
+        return ans == Integer.MAX_VALUE ? 0 : ans;
+    }
+
+    /**
+     * 分糖果
+     */
+    public int distributeCandies(int[] candies) {
+        HashSet<Integer> set = new HashSet<>();
+        for (int i = 0; i < candies.length; i++) {
+            set.add(candies[i]);
+        }
+        return Math.min(set.size(), candies.length / 2);
+    }
+
+
+    public void quick(int[] data, int l, int r) {
+        int i = l;
+        int j = r;
+        int num = data[l];
+        int temp = 0;
+        while (i < j) {
+            while (i < j && data[j] > num) {
+                j--;
+            }
+            if (i < j) {
+                temp = num;
+                num = data[j];
+                data[j] = temp;
+            }
+            while (i < j && data[i] < num) {
+                i++;
+            }
+            if (i < j) {
+                temp = num;
+                num = data[i];
+                data[i] = temp;
+            }
+        }
+        if (l < r) {
+            quick(data, l, i - 1);
+            quick(data, i + 1, r);
+        }
+    }
+
+    public static void main(String[] args) {
+        ListNode listNode3 = new ListNode(3);
+        ListNode listNode2 = new ListNode(2);
+        ListNode listNode4 = new ListNode(4);
+        ListNode listNode7 = new ListNode(7);
+        ListNode listNode5 = new ListNode(5);
+        ListNode listNode6 = new ListNode(6);
+        ListNode listNode1 = new ListNode(1);
+        ListNode listNode8 = new ListNode(8);
+        ListNode listNode9 = new ListNode(9);
+        listNode3.next = listNode2;
+        listNode2.next = listNode4;
+        listNode4.next = listNode7;
+        listNode9.next = listNode6;
+        listNode2.son = listNode9;
+        listNode7.son = listNode8;
+        listNode9.son = listNode1;
+        listNode8.son = listNode5;
+        ArrayDemo demo = new ArrayDemo();
+        demo.find2(listNode3);
+    }
+
+
+    public void find(ListNode head) {
+        ListNode son = null;
+        ListNode son2 = null;
+        ListNode node2 = new ListNode();
+        ListNode node22 = node2;
+        ListNode node3 = new ListNode();
+        ListNode node33 = node3;
+        ListNode sonNext = null;
+        while (head != null) {
+            son = head.son;
+            if (son != null) {
+                //第二层
+                sonNext = son;
+                while (sonNext != null) {
+                    node2.next = sonNext;
+                    node2 = sonNext;
+                    sonNext = sonNext.next;
+                }
+                //第三层
+                son2 = son.son;
+                if (son2 != null) {
+                    sonNext = son2;
+                    while (sonNext != null) {
+                        node3.next = sonNext;
+                        node3 = sonNext;
+                        sonNext = sonNext.next;
+                    }
+                }
+            }
+            System.out.println(head.value);
+            head = head.next;
+        }
+        node22 = node22.next;
+        node33 = node33.next;
+        while (node22 != null) {
+            System.out.println(node22.value);
+            node22 = node22.next;
+        }
+        while (node33 != null) {
+            System.out.println(node33.value);
+            node33 = node33.next;
+        }
+    }
+
+
+    public void find2(ListNode head) {
+        ListNode sonAll = new ListNode();
+        ListNode node = head;
+        while (node != null) {
+            test(node, sonAll);
+            System.out.println(node.value);
+            node = node.next;
+        }
+        sonAll = sonAll.next;
+        while (sonAll != null) {
+            System.out.println(sonAll.value);
+            sonAll = sonAll.next;
+        }
+    }
+
+    public void test(ListNode node, ListNode sonAll) {
+        ListNode son = node.son;
+        ListNode sonNext;
+        if (son != null) {
+            sonNext = son;
+            while (sonNext != null) {
+                sonAll.next = sonNext;
+                sonAll = sonNext;
+                sonNext = sonNext.next;
+            }
+        }
+    }
+
+}
+
+class ListNode {
+    int value;
+    ListNode next;
+
+    ListNode son;
+
+
+    ListNode() {
+    }
+
+    ListNode(int value) {
+        this.value = value;
+    }
+
+
 }

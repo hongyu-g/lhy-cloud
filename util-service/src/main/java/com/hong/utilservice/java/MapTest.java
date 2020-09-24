@@ -32,7 +32,23 @@ public class MapTest {
         System.out.println(hashMap);
     }
 
+
+    void test(Object key) {
+        int hash = hash(key);
+        int oldIndex = hash & (16-1);
+        System.out.println("oldIndex:" + oldIndex);
+        int index = hash & 16;
+        System.out.println(index);
+        int newIndex = hash & (32 - 1);
+        System.out.println("newIndex:" + newIndex);
+    }
+
+    int hash(Object key) {
+        int h;
+        return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+    }
+
     public static void main(String[] args) {
-        new MapTest().linkedHashMapTest();
+        new MapTest().test(17);
     }
 }
