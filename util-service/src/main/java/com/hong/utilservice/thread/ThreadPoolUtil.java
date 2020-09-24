@@ -33,7 +33,7 @@ public class ThreadPoolUtil {
 
     public static ThreadPoolExecutor getThreadPool() {
         BlockingQueue<Runnable> blockingQueue = new LinkedBlockingQueue<>(1000);
-        return new ThreadPoolExecutor(CPU_COUNT, CPU_COUNT + 1, 1, TimeUnit.SECONDS,
+        return new ThreadPoolExecutor(4, 5, 1, TimeUnit.SECONDS,
                 blockingQueue, getThreadFactory(), new ThreadPoolRejectedExecutionHandler());
     }
 
